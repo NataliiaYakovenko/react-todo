@@ -11,14 +11,25 @@ class TodoList extends Component {
     };
   }
 
-//   changeHandler = ({ target: { value, name } }) => {
-//     this.setState({
-//       newTask: value,
-//     });
-//   };
+      changeHandler = ({ target: { value, name } }) => {
+      this.setState({
+        [name]: value,
+      });
+    };
+
+  removeTask = (taskToRemove) => {
+    const { arrayTask } = this.state;
+    const arrayTaskFilter = arrayTask.filter((task) => {
+      return task.id !== taskToRemove;
+    });
+    this.setState({
+      arrayTask: arrayTaskFilter,
+    });
+  };
+
+
 
   render() {
-    const { text } = arrayTask;
     return (
       <div>
         <h1>Todo list</h1>
@@ -26,13 +37,22 @@ class TodoList extends Component {
         <input
           type="text"
           placeholder="Add your task"
-        //   value={newTask}
-        //   onChange={this.changeHandler}
+          //   value={newTask}
+          //   onChange={this.changeHandler}
         />
 
         <ol>
           {this.state.arrayTask.map(({ id, text }) => {
-            return <li key={id}>{text}</li>;
+            return (
+              <form key={id}>
+                <li >{text}</li>
+                <button
+                  onClick={() => this.removeTask(id)}
+                >
+                  Delete
+                </button>
+              </form>
+            );
           })}
         </ol>
       </div>
