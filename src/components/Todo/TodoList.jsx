@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import styles from "./TodoListStyle.module.scss";
+import cx from "classnames";
 
 class TodoList extends Component {
   constructor(props) {
@@ -7,6 +9,7 @@ class TodoList extends Component {
     this.state = {
       arrayTasks: [],
       newTask: "",
+      isInputValid: true,
     };
   }
 
@@ -15,15 +18,22 @@ class TodoList extends Component {
   };
 
   changeHandler = ({ target: { value, name } }) => {
-    this.setState({
-      [name]: value,
-    });
+    if(value.includes('*')){
+      this.setState({
+        isInputValid: false
+      })
+    } else{
+      this.setState({
+        [name]: value,
+        isInputValid: true,
+      });
+
+    }
   };
 
   addTask = () => {
     const { arrayTasks, newTask } = this.state;
-
-    if (!newTask.trim()) {
+    if (!newTask) {
       return;
     }
 
@@ -62,11 +72,18 @@ class TodoList extends Component {
   };
 
   render() {
+    const { isInputValid } = this.state;
+
+    const classNameInput = cx({
+      [styles.input]: true,
+      [styles.inValidInput]: !isInputValid,
+    });
+
     return (
-      <form onSubmit={this.submitHandler}>
+      <form onSubmit={this.submitHandler} className={styles.container}>
         <h1>Todo list</h1>
 
-        <input
+        <input className={classNameInput}
           type="text"
           placeholder="Add your task"
           name="newTask"
@@ -86,7 +103,7 @@ class TodoList extends Component {
                   style={{
                     cursor: "pointer",
                     textDecoration: completed ? "underline" : "none",
-                    color: completed ? "green" : "red",
+                    color: completed ? "green" : "black",
                   }}
                 >
                   {text}
@@ -100,5 +117,4 @@ class TodoList extends Component {
     );
   }
 }
-
 export default TodoList;
