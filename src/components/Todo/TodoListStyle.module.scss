@@ -1,14 +1,71 @@
-.container{
-
+body {
+  background-image: url("https://www.shutterstock.com/image-photo/calendar-2025-year-schedule-blank-600nw-2483159669.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
-.inValidInput{
-    border: 6px solid rgb(33, 159, 18);
-    background-color: yellow;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: blue;
+  background-color: yellow;
+  border: 10px dashed blue;
+  border-radius: 30px;
+  max-width: 50%;
+  font-size: 200%;
+  margin-top: 5%;
+  margin-left: 8%;
+  box-shadow: 0 0 58px rgba(27, 41, 102, 0.1);
+  font-family: "Segoe UI", sans-serif;
 
-}
+  .boxTask {
+    display: flex;
+    gap: 0 12px;
+    margin-bottom: 20px;
 
-.input{
-    height: 25px;
+    .input {
+      font-size: 100%;
+      background-color: blue;
+      border-color: blue;
+      border-radius: 10px;
+      color: white;
+      padding: 2%;
+      &.inValidInput {
+        background-color: red;
+      }
+    }
+    .btnAdd {
+      font-size: 100%;
+      background-color: white;
+      border-color: white;
+      border-radius: 10px;
+      color: blue;
+      padding: 2%;
+    }
+  }
 
+  .listTasks {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+
+    .listText {
+      width: 300px;
+      font-size: 100%;
+      background-color: rgb(104, 2, 82);
+      border-radius: 10px;
+      color: white;
+      padding: 2%;
+    }
+    .btnList {
+      font-size: 100%;
+      background-color: white;
+      border-color: white;
+      border-radius: 10px;
+      color: blue;
+      padding: 2%;
+    }
+  }
 }

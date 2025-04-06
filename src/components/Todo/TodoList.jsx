@@ -1,41 +1,63 @@
 import React, { Component } from "react";
 import styles from "./TodoListStyle.module.scss";
 import cx from "classnames";
+import * as yup from "yup";
+
+const initiaState = {
+  arrayTasks: [],
+  newTask: "",
+  error: "",
+};
+
+const ADD_TASK_SHEMA = yup.object({
+  newTask: yup.string().required(),
+});
 
 class TodoList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      arrayTasks: [],
-      newTask: "",
-      isInputValid: true,
+      ...initiaState,
     };
   }
 
   submitHandler = (event) => {
+    const{newTask}=this.state
     event.preventDefault();
+    ADD_TASK_SHEMA.validate({ newTask: newTask })
+      .then(() => {
+        this.addTask();
+        this.setState({
+          error: "",
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          error: err,
+        });
+      });
   };
 
-  changeHandler = ({ target: { value, name } }) => {
-    if(value.includes('*')){
-      this.setState({
-        isInputValid: false
+  changeHandler = ({ target: { value } }) => {
+    this.setState({
+      newTask: value,
+    });
+    ADD_TASK_SHEMA.validate({ newTask: value })
+      .then(() => {
+        this.setState({
+          error: "",
+        });
       })
-    } else{
-      this.setState({
-        [name]: value,
-        isInputValid: true,
+      .catch((err) => {
+        this.setState({
+          error: err,
+        });
       });
-
-    }
   };
 
   addTask = () => {
     const { arrayTasks, newTask } = this.state;
-    if (!newTask) {
-      return;
-    }
 
     const newObjectTask = {
       id: arrayTasks.length + 1,
@@ -46,6 +68,7 @@ class TodoList extends Component {
     this.setState({
       arrayTasks: [...arrayTasks, newObjectTask],
       newTask: "",
+      error: "",
     });
   };
 
@@ -72,43 +95,54 @@ class TodoList extends Component {
   };
 
   render() {
-    const { isInputValid } = this.state;
+    const { error } = this.state;
 
     const classNameInput = cx({
       [styles.input]: true,
-      [styles.inValidInput]: !isInputValid,
+      [styles.inValidInput]: !!error,
     });
 
     return (
       <form onSubmit={this.submitHandler} className={styles.container}>
-        <h1>Todo list</h1>
+        <h1>To do list</h1>
 
-        <input className={classNameInput}
-          type="text"
-          placeholder="Add your task"
-          name="newTask"
-          value={this.state.newTask}
-          onChange={this.changeHandler}
-        />
-        <button onClick={this.addTask}>Add</button>
+        <div className={styles.boxTask}>
+          <input
+            className={classNameInput}
+            type="text"
+            placeholder="Add your task"
+            name="newTask"
+            value={this.state.newTask}
+            onChange={this.changeHandler}
+          />
+          <button className={styles.btnAdd} onClick={this.submitHandler}>
+            Add
+          </button>
+        </div>
 
         <ol>
           {this.state.arrayTasks.map(({ id, text, completed }) => {
             return (
-              <div key={id}>
+              <div key={id} className={styles.listTasks}>
                 <li
+                  className={styles.listText}
                   onClick={() => {
                     return this.completedTask(id);
                   }}
                   style={{
                     cursor: "pointer",
                     textDecoration: completed ? "underline" : "none",
-                    color: completed ? "green" : "black",
+                    color: completed ? "orange" : "white",
                   }}
                 >
                   {text}
                 </li>
-                <button onClick={() => this.removeTask(id)}>Delete</button>
+                <button
+                  className={styles.btnList}
+                  onClick={() => this.removeTask(id)}
+                >
+                  Delete
+                </button>
               </div>
             );
           })}
