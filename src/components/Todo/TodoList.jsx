@@ -11,11 +11,15 @@ class TodoList extends Component {
     };
   }
 
-      changeHandler = ({ target: { value, name } }) => {
-      this.setState({
-        [name]: value,
-      });
-    };
+  submitHandler=(event)=>{
+    event.preventDefault()
+  }
+
+  changeHandler = ({ target: { value, name } }) => {
+    this.setState({
+      [name]: value,
+    });
+  };
 
   removeTask = (taskToRemove) => {
     const { arrayTask } = this.state;
@@ -27,35 +31,47 @@ class TodoList extends Component {
     });
   };
 
+  addTask = () => {
+    const { arrayTask, newTask } = this.state;
 
+    if (!newTask.trim()) return;
+
+    const newObjectTask = {
+      id: arrayTask.length + 1,
+      text: newTask,
+    };
+
+    this.setState({
+      arrayTask: [...arrayTask, newObjectTask],
+      newTask: "",
+    });
+  };
 
   render() {
     return (
-      <div>
+      <form onSubmit={this.submitHandler}>
         <h1>Todo list</h1>
 
         <input
           type="text"
           placeholder="Add your task"
-          //   value={newTask}
-          //   onChange={this.changeHandler}
+          name="newTask"
+          value={this.state.newTask}
+          onChange={this.changeHandler}
         />
+        <button onClick={this.addTask}>Add</button>
 
         <ol>
           {this.state.arrayTask.map(({ id, text }) => {
             return (
-              <form key={id}>
-                <li >{text}</li>
-                <button
-                  onClick={() => this.removeTask(id)}
-                >
-                  Delete
-                </button>
-              </form>
+              <div key={id}>
+                <li>{text}</li>
+                <button onClick={() => this.removeTask(id)}>Delete</button>
+              </div>
             );
           })}
         </ol>
-      </div>
+      </form>
     );
   }
 }
