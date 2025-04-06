@@ -1,19 +1,18 @@
 import React, { Component } from "react";
-import arrayTask from "./TodoTask";
 
 class TodoList extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      arrayTask: arrayTask,
+      arrayTasks: [],
       newTask: "",
     };
   }
 
-  submitHandler=(event)=>{
-    event.preventDefault()
-  }
+  submitHandler = (event) => {
+    event.preventDefault();
+  };
 
   changeHandler = ({ target: { value, name } }) => {
     this.setState({
@@ -21,29 +20,44 @@ class TodoList extends Component {
     });
   };
 
-  removeTask = (taskToRemove) => {
-    const { arrayTask } = this.state;
-    const arrayTaskFilter = arrayTask.filter((task) => {
-      return task.id !== taskToRemove;
-    });
-    this.setState({
-      arrayTask: arrayTaskFilter,
-    });
-  };
-
   addTask = () => {
-    const { arrayTask, newTask } = this.state;
+    const { arrayTasks, newTask } = this.state;
 
-    if (!newTask.trim()) return;
+    if (!newTask.trim()) {
+      return;
+    }
 
     const newObjectTask = {
-      id: arrayTask.length + 1,
+      id: arrayTasks.length + 1,
       text: newTask,
+      completed: false,
     };
 
     this.setState({
-      arrayTask: [...arrayTask, newObjectTask],
+      arrayTasks: [...arrayTasks, newObjectTask],
       newTask: "",
+    });
+  };
+
+  completedTask = (id) => {
+    const updatedTasks = this.state.arrayTasks.map((task) => {
+      if (task.id === id) {
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    });
+    this.setState({
+      arrayTasks: updatedTasks,
+    });
+  };
+
+  removeTask = (taskToRemove) => {
+    const { arrayTasks } = this.state;
+    const arrayTaskFilter = arrayTasks.filter((task) => {
+      return task.id !== taskToRemove;
+    });
+    this.setState({
+      arrayTasks: arrayTaskFilter,
     });
   };
 
@@ -62,10 +76,21 @@ class TodoList extends Component {
         <button onClick={this.addTask}>Add</button>
 
         <ol>
-          {this.state.arrayTask.map(({ id, text }) => {
+          {this.state.arrayTasks.map(({ id, text, completed }) => {
             return (
               <div key={id}>
-                <li>{text}</li>
+                <li
+                  onClick={() => {
+                    return this.completedTask(id);
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    textDecoration: completed ? "underline" : "none",
+                    color: completed ? "green" : "red",
+                  }}
+                >
+                  {text}
+                </li>
                 <button onClick={() => this.removeTask(id)}>Delete</button>
               </div>
             );
