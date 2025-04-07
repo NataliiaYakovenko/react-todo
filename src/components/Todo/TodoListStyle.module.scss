@@ -1,4 +1,5 @@
 body {
+  height: 100vh;
   background-image: url("https://www.shutterstock.com/image-photo/calendar-2025-year-schedule-blank-600nw-2483159669.jpg");
   background-size: cover;
   background-repeat: no-repeat;
@@ -15,18 +16,22 @@ body {
   border-radius: 30px;
   max-width: 50%;
   font-size: 200%;
+  font-family: "Segoe UI", sans-serif;
   margin-top: 5%;
   margin-left: 8%;
-  box-shadow: 0 0 58px rgba(27, 41, 102, 0.1);
-  font-family: "Segoe UI", sans-serif;
+  padding: 2%;
+
+  .title{
+    margin: 1px 0;
+  }
 
   .boxTask {
     display: flex;
-    gap: 0 12px;
+    gap: 4%;
     margin-bottom: 20px;
 
     .input {
-      font-size: 100%;
+      font-size: 90%;
       background-color: blue;
       border-color: blue;
       border-radius: 10px;
@@ -43,21 +48,30 @@ body {
       border-radius: 10px;
       color: blue;
       padding: 2%;
+      margin-right: 2%;
+    }
+    .btnAdd:hover {
+      background-color: bisque;
+      border-color: bisque;
     }
   }
 
   .listTasks {
     display: flex;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 4%;
+    margin-top: 4%;
+    margin-bottom: 10px;
 
     .listText {
-      width: 300px;
-      font-size: 100%;
-      background-color: rgb(104, 2, 82);
+      font-size: 70%;
+      padding: 1%;
       border-radius: 10px;
+      border: none;
       color: white;
-      padding: 2%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: pre-wrap;
     }
     .btnList {
       font-size: 100%;
@@ -65,7 +79,29 @@ body {
       border-color: white;
       border-radius: 10px;
       color: blue;
-      padding: 2%;
     }
+    .btnList:hover {
+      background-color: bisque;
+      border-color: bisque;
+    }
+  }
+}
+
+@media (max-width: 1202px) {
+  .container {
+    max-width: 80%;
+    font-size: 150%;
+  }
+}
+
+@media (max-width: 627px) {
+  .container {
+    font-size: 100%;
+  }
+}
+
+@media (max-width: 464px) {
+  .container {
+    font-size: 80%;
   }
 }

@@ -104,7 +104,7 @@ class TodoList extends Component {
 
     return (
       <form onSubmit={this.submitHandler} className={styles.container}>
-        <h1>To do list</h1>
+        <h1 className={styles.title}>To do list</h1>
 
         <div className={styles.boxTask}>
           <input
@@ -120,23 +120,25 @@ class TodoList extends Component {
           </button>
         </div>
 
-        <ol>
+        <div>
           {this.state.arrayTasks.map(({ id, text, completed }) => {
             return (
               <div key={id} className={styles.listTasks}>
-                <li
+                <textarea
                   className={styles.listText}
                   onClick={() => {
                     return this.completedTask(id);
                   }}
                   style={{
                     cursor: "pointer",
+                    backgroundColor: completed ?'green': 'rgb(104, 2, 82)',
                     textDecoration: completed ? "underline" : "none",
                     color: completed ? "orange" : "white",
                   }}
                 >
                   {text}
-                </li>
+                </textarea>
+
                 <button
                   className={styles.btnList}
                   onClick={() => this.removeTask(id)}
@@ -146,7 +148,7 @@ class TodoList extends Component {
               </div>
             );
           })}
-        </ol>
+        </div>
       </form>
     );
   }
