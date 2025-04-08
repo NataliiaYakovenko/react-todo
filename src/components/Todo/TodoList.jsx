@@ -9,7 +9,7 @@ const initiaState = {
   error: "",
 };
 
-const ADD_TASK_SHEMA = yup.object({
+const ADD_TASK_SCHEMA = yup.object({
   newTask: yup.string().required(),
 });
 
@@ -25,7 +25,7 @@ class TodoList extends Component {
   submitHandler = (event) => {
     const{newTask}=this.state
     event.preventDefault();
-    ADD_TASK_SHEMA.validate({ newTask: newTask })
+    ADD_TASK_SCHEMA.validate({ newTask: newTask })
       .then(() => {
         this.addTask();
         this.setState({
@@ -43,7 +43,7 @@ class TodoList extends Component {
     this.setState({
       newTask: value,
     });
-    ADD_TASK_SHEMA.validate({ newTask: value })
+    ADD_TASK_SCHEMA.validate({ newTask: value })
       .then(() => {
         this.setState({
           error: "",
